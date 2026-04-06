@@ -8,352 +8,111 @@
 <style>
   :root {
     --navy: #0a1628;
-    --navy2: #0f2040;
     --blue: #1a6cf5;
     --blue-l: #e8f0ff;
     --teal: #00b87a;
     --teal-l: #e0f7ef;
     --amber: #f5a623;
     --amber-l: #fff4e0;
-    --red: #e8453c;
-    --red-l: #feeeed;
-    --gray: #8a9ab5;
     --border: rgba(255,255,255,0.08);
     --card: rgba(255,255,255,0.04);
     --text: #e8edf5;
     --text2: #8a9ab5;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
 
-  body {
-    background: var(--navy);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* noise texture overlay */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 0; opacity: 0.4;
-  }
-
-  /* ── HEADER ── */
-  header {
-    position: relative;
-    padding: 60px 24px 48px;
-    text-align: center;
-    overflow: hidden;
-  }
-  header::after {
-    content: '';
-    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 200px; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--blue), transparent);
-  }
-  .hero-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--blue);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards 0.1s;
-  }
-  h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(48px, 10vw, 88px);
-    letter-spacing: 0.04em;
-    line-height: 0.95;
-    color: #fff;
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards 0.2s;
-  }
+  header { padding: 56px 24px 44px; text-align: center; position: relative; }
+  header::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 180px; height: 1px; background: linear-gradient(90deg, transparent, var(--blue), transparent); }
+  .hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--blue); text-transform: uppercase; margin-bottom: 12px; animation: fadeUp 0.5s ease forwards 0.1s; opacity: 0; }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(46px, 10vw, 84px); letter-spacing: 0.04em; line-height: 0.95; color: #fff; animation: fadeUp 0.5s ease forwards 0.2s; opacity: 0; }
   h1 span { color: var(--blue); }
-  .hero-sub {
-    margin-top: 14px;
-    color: var(--text2);
-    font-size: 14px;
-    letter-spacing: 0.05em;
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards 0.35s;
-  }
+  .hero-sub { margin-top: 12px; color: var(--text2); font-size: 13px; letter-spacing: 0.06em; animation: fadeUp 0.5s ease forwards 0.3s; opacity: 0; }
 
-  /* ── STATS ROW ── */
-  .stats {
-    display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 10px; padding: 32px 24px 0;
-    opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s;
-  }
-  .stat-pill {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    padding: 8px 18px;
-    font-size: 13px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .stat-pill .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-  }
+  .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 28px 24px 0; animation: fadeUp 0.5s ease forwards 0.4s; opacity: 0; }
+  .stat-pill { background: var(--card); border: 1px solid var(--border); border-radius: 100px; padding: 7px 16px; font-size: 12px; display: flex; align-items: center; gap: 7px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
-  /* ── WEEK STRIP ── */
-  .week-strip {
-    display: flex; overflow-x: auto;
-    gap: 8px; padding: 32px 24px 0;
-    scrollbar-width: none;
-    opacity: 0; animation: fadeUp 0.6s ease forwards 0.6s;
-  }
+  .top-tabs { max-width: 780px; margin: 28px auto 0; padding: 0 24px; animation: fadeUp 0.5s ease forwards 0.5s; opacity: 0; }
+  .top-tabs-inner { display: flex; gap: 4px; background: rgba(255,255,255,0.04); border-radius: 100px; padding: 4px; border: 1px solid var(--border); }
+  .tab-btn { flex: 1; padding: 10px 8px; border-radius: 100px; border: none; background: transparent; color: var(--text2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .tab-btn.active { background: var(--blue); color: #fff; }
+  .tab-btn:not(.active):hover { background: rgba(255,255,255,0.06); color: var(--text); }
+
+  .week-strip { display: flex; overflow-x: auto; gap: 8px; padding: 24px 24px 0; scrollbar-width: none; max-width: 780px; margin: 0 auto; }
   .week-strip::-webkit-scrollbar { display: none; }
-  .day-pill {
-    flex-shrink: 0;
-    padding: 10px 20px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text2);
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
+  .day-pill { flex-shrink: 0; padding: 9px 18px; border-radius: 100px; border: 1px solid var(--border); background: var(--card); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text2); transition: all 0.2s; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
   .day-pill:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
   .day-pill.active { color: #fff; border-color: transparent; }
   .day-pill.run.active { background: var(--teal); }
   .day-pill.strength.active { background: var(--blue); }
   .day-pill.rest.active { background: #2a3650; color: var(--text2); }
 
-  /* ── MAIN CONTENT ── */
-  main { padding: 32px 24px 80px; max-width: 780px; margin: 0 auto; }
-
-  .day-view { display: none; }
-  .day-view.active { display: block; animation: fadeUp 0.35s ease; }
-
-  .day-header {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    flex-wrap: wrap; gap: 12px;
-    margin-bottom: 24px;
-  }
-  .day-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 38px;
-    letter-spacing: 0.04em;
-    line-height: 1;
-  }
-  .type-badge {
-    padding: 6px 14px;
-    border-radius: 100px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .badge-run { background: var(--teal-l); color: #007a50; }
-  .badge-strength { background: var(--blue-l); color: #0c4db0; }
-  .badge-rest { background: rgba(255,255,255,0.06); color: var(--text2); }
-
-  /* run block */
-  .run-block {
-    background: linear-gradient(135deg, rgba(0,184,122,0.12), rgba(0,184,122,0.04));
-    border: 1px solid rgba(0,184,122,0.25);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 24px;
-  }
-  .run-block h3 {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: var(--teal);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .run-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .run-item { }
-  .run-item .rl { font-size: 11px; color: var(--text2); margin-bottom: 2px; }
-  .run-item .rv { font-size: 14px; font-weight: 500; color: var(--text); }
-
-  /* section */
-  .section { margin-bottom: 28px; }
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    color: var(--text2);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* exercise rows */
-  .ex-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    margin-bottom: 6px;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .ex-row:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.07); }
-  .ex-left { display: flex; align-items: center; gap: 12px; }
-  .ex-num {
-    width: 26px; height: 26px; border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; color: var(--text2); flex-shrink: 0;
-    font-family: 'DM Mono', monospace;
-  }
-  .ex-name { font-size: 14px; font-weight: 500; }
-  .ex-note { font-size: 12px; color: var(--text2); margin-top: 1px; }
-  .ex-sets {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--blue);
-    font-weight: 500;
-    white-space: nowrap;
-    margin-left: 12px;
-  }
-
-  /* tip */
-  .tip {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 12px 16px;
-    border-radius: 10px;
-    background: rgba(26,108,245,0.08);
-    border-left: 3px solid var(--blue);
-    margin-top: 16px;
-    font-size: 13px;
-    color: var(--text2);
-    font-style: italic;
-  }
-
-  /* ── TABS NAV ── */
-  .tab-nav {
-    display: flex; gap: 4px;
-    background: rgba(255,255,255,0.04);
-    border-radius: 100px;
-    padding: 4px;
-    margin: 32px 24px 0;
-    max-width: 780px;
-    margin-left: auto; margin-right: auto;
-    border: 1px solid var(--border);
-  }
-  .tab-btn {
-    flex: 1;
-    padding: 10px;
-    border-radius: 100px;
-    border: none;
-    background: transparent;
-    color: var(--text2);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .tab-btn.active { background: var(--blue); color: #fff; }
-  .tab-btn:not(.active):hover { background: rgba(255,255,255,0.06); color: var(--text); }
-
   .tab-content { display: none; max-width: 780px; margin: 0 auto; padding: 28px 24px 80px; }
   .tab-content.active { display: block; animation: fadeUp 0.3s ease; }
+  .day-view { display: none; }
+  .day-view.active { display: block; animation: fadeUp 0.3s ease; }
 
-  /* ── NUTRITION ── */
-  .macro-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px; margin: 20px 0;
-  }
-  .macro-card {
-    border-radius: 14px;
-    padding: 18px;
-    border: 1px solid var(--border);
-  }
-  .macro-card .mc-label { font-size: 11px; color: var(--text2); margin-bottom: 6px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; }
-  .macro-card .mc-value { font-family: 'Bebas Neue', sans-serif; font-size: 28px; line-height: 1; }
-  .macro-card .mc-desc { font-size: 11px; color: var(--text2); margin-top: 4px; }
+  .day-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+  .day-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.04em; line-height: 1; }
+  .type-badge { padding: 5px 14px; border-radius: 100px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .badge-run      { background: #d0f5e8; color: #006b42; }
+  .badge-strength { background: #deeaff; color: #0c4db0; }
+  .badge-rest     { background: rgba(255,255,255,0.06); color: var(--text2); }
 
-  .meal-row {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    padding: 14px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    margin-bottom: 8px;
-    gap: 12px;
-  }
-  .meal-time { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text2); width: 80px; flex-shrink: 0; padding-top: 2px; }
+  .run-block { background: linear-gradient(135deg, rgba(0,184,122,0.1), rgba(0,184,122,0.03)); border: 1px solid rgba(0,184,122,0.22); border-radius: 14px; padding: 18px; margin-bottom: 22px; }
+  .run-block h3 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; }
+  .run-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .run-item .rl { font-size: 11px; color: var(--text2); margin-bottom: 2px; }
+  .run-item .rv { font-size: 14px; font-weight: 500; }
+
+  .section { margin-bottom: 26px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: var(--text2); text-transform: uppercase; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+  /* clickable exercise row */
+  a.ex-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); margin-bottom: 6px; cursor: pointer; transition: border-color 0.18s, background 0.18s, transform 0.1s; text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
+  a.ex-row:hover  { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.07); }
+  a.ex-row:active { transform: scale(0.985); }
+  .ex-left { display: flex; align-items: center; gap: 11px; }
+  .ex-num { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text2); flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .ex-name { font-size: 14px; font-weight: 500; }
+  .ex-note { font-size: 12px; color: var(--text2); margin-top: 1px; }
+  .ex-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-left: 10px; }
+  .ex-sets { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--blue); font-weight: 500; white-space: nowrap; }
+  .yt-icon { width: 26px; height: 18px; border-radius: 4px; background: #ff0000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .yt-icon svg { width: 10px; height: 10px; fill: #fff; }
+
+  .tip { padding: 11px 14px; border-radius: 10px; background: rgba(26,108,245,0.08); border-left: 3px solid var(--blue); margin-top: 14px; font-size: 13px; color: var(--text2); font-style: italic; }
+
+  .macro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 18px 0; }
+  .macro-card { border-radius: 14px; padding: 16px; border: 1px solid var(--border); }
+  .mc-label { font-size: 10px; color: var(--text2); margin-bottom: 5px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; }
+  .mc-value { font-family: 'Bebas Neue', sans-serif; font-size: 28px; line-height: 1; }
+  .mc-desc  { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+  .meal-row { display: flex; align-items: flex-start; justify-content: space-between; padding: 13px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); margin-bottom: 7px; gap: 10px; }
+  .meal-time { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text2); width: 76px; flex-shrink: 0; padding-top: 2px; }
   .meal-food { flex: 1; font-size: 14px; }
   .meal-macro { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--teal); white-space: nowrap; text-align: right; }
 
-  /* ── OVERLOAD ── */
-  .overload-row {
-    display: flex; align-items: center; gap: 16px;
-    padding: 14px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    margin-bottom: 8px;
-  }
-  .ol-week { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--blue); min-width: 72px; }
-  .ol-sets { font-size: 14px; font-weight: 500; min-width: 90px; }
+  .overload-row { display: flex; align-items: center; gap: 14px; padding: 13px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); margin-bottom: 7px; }
+  .ol-week  { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--blue); min-width: 72px; }
+  .ol-sets  { font-size: 14px; font-weight: 500; min-width: 88px; }
   .ol-focus { font-size: 13px; color: var(--text2); }
-  .ol-deload { border-color: rgba(245,166,35,0.3); background: rgba(245,166,35,0.06); }
+  .ol-deload { border-color: rgba(245,166,35,0.3); background: rgba(245,166,35,0.05); }
   .ol-deload .ol-week { color: var(--amber); }
 
-  /* ── RULES ── */
-  .rule-card {
-    display: flex; align-items: flex-start; gap: 14px;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    margin-bottom: 10px;
-  }
-  .rule-icon {
-    width: 34px; height: 34px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; flex-shrink: 0;
-  }
+  .rule-card { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); margin-bottom: 9px; }
+  .rule-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
   .rule-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-  .rule-desc { font-size: 13px; color: var(--text2); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 12px;
-    color: var(--text2);
-    border-top: 1px solid var(--border);
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.05em;
-  }
+  .rule-desc  { font-size: 13px; color: var(--text2); }
 
   h2 { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.04em; margin-bottom: 4px; }
-  p { color: var(--text2); font-size: 14px; margin-bottom: 16px; }
+  p  { color: var(--text2); font-size: 13px; margin-bottom: 14px; }
 
-  @media (max-width: 520px) {
-    .run-grid { grid-template-columns: 1fr; }
-    .meal-row { flex-wrap: wrap; }
-    .overload-row { flex-wrap: wrap; }
-    .tab-btn { font-size: 12px; padding: 8px 6px; }
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  footer { text-align: center; padding: 20px; font-size: 11px; color: var(--text2); border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+  @media (max-width: 500px) { .run-grid { grid-template-columns: 1fr; } .tab-btn { font-size: 11px; padding: 9px 4px; } .overload-row { flex-wrap: wrap; } }
 </style>
 </head>
 <body>
@@ -368,32 +127,26 @@
   <div class="stat-pill"><span class="dot" style="background:var(--teal)"></span>3× running / week</div>
   <div class="stat-pill"><span class="dot" style="background:var(--blue)"></span>3× strength / week</div>
   <div class="stat-pill"><span class="dot" style="background:var(--amber)"></span>150g+ protein daily</div>
-  <div class="stat-pill"><span class="dot" style="background:var(--text2)"></span>1 full rest day</div>
+  <div class="stat-pill"><span class="dot" style="background:var(--text2)"></span>1 rest day</div>
 </div>
 
-<!-- top nav tabs -->
-<div style="max-width:780px;margin:32px auto 0;padding:0 24px;">
-  <div style="display:flex;gap:4px;background:rgba(255,255,255,0.04);border-radius:100px;padding:4px;border:1px solid var(--border);">
+<div class="top-tabs">
+  <div class="top-tabs-inner">
     <button class="tab-btn active" onclick="switchTab('workouts',this)">Workouts</button>
     <button class="tab-btn" onclick="switchTab('nutrition',this)">Nutrition</button>
     <button class="tab-btn" onclick="switchTab('overload',this)">Progressive Overload</button>
   </div>
 </div>
 
-<!-- ════════════════ WORKOUTS TAB ════════════════ -->
+<!-- WORKOUTS TAB -->
 <div id="tab-workouts" class="tab-content active">
-
   <div class="week-strip" id="dayStrip"></div>
-
-  <div style="margin-top:24px;" id="dayViews">
+  <div style="margin-top:22px;" id="dayViews">
 
     <!-- MONDAY -->
     <div class="day-view active" id="day-0">
       <div class="day-header">
-        <div>
-          <div class="day-title">Monday</div>
-          <div style="color:var(--text2);font-size:13px;">5 km Easy Run + Hip Mobility</div>
-        </div>
+        <div><div class="day-title">Monday</div><div style="color:var(--text2);font-size:13px;">5 km Easy Run + Hip Mobility</div></div>
         <span class="type-badge badge-run">Run Day</span>
       </div>
       <div class="run-block">
@@ -406,14 +159,14 @@
         </div>
       </div>
       <div class="section">
-        <div class="section-label">Post-run mobility — 10 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Hip flexor lunge stretch</div><div class="ex-note">Deep lunge hold, upright torso</div></div></div><div class="ex-sets">45 sec each</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Pigeon pose</div><div class="ex-note">Glutes & hip opener</div></div></div><div class="ex-sets">45 sec each</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Standing quad stretch</div><div class="ex-note">Balance hold</div></div></div><div class="ex-sets">30 sec each</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Calf stretch on wall</div><div class="ex-note">Straight + bent knee variations</div></div></div><div class="ex-sets">30 sec ×2</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Ankle circles</div><div class="ex-note">Both directions</div></div></div><div class="ex-sets">10 each way</div></div>
+        <div class="section-label">Post-run mobility — 10 min · tap any exercise to watch how</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=hip+flexor+lunge+stretch+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Hip flexor lunge stretch</div><div class="ex-note">Deep lunge hold, upright torso</div></div></div><div class="ex-right"><span class="ex-sets">45 sec each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=pigeon+pose+tutorial+how+to" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Pigeon pose</div><div class="ex-note">Glutes & hip opener</div></div></div><div class="ex-right"><span class="ex-sets">45 sec each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=standing+quad+stretch+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Standing quad stretch</div><div class="ex-note">Balance hold, chest tall</div></div></div><div class="ex-right"><span class="ex-sets">30 sec each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=calf+stretch+wall+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Calf stretch on wall</div><div class="ex-note">Straight + bent knee variations</div></div></div><div class="ex-right"><span class="ex-sets">30 sec ×2</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=ankle+circles+mobility+exercise" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Ankle circles</div><div class="ex-note">Both directions</div></div></div><div class="ex-right"><span class="ex-sets">10 each way</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
-      <div class="tip">Keep Monday easy — you're setting the tone for the week. Heart rate should stay low.</div>
+      <div class="tip">Keep Monday easy — heart rate should stay low. You're setting the tone for the week.</div>
     </div>
 
     <!-- TUESDAY -->
@@ -423,25 +176,25 @@
         <span class="type-badge badge-strength">Strength</span>
       </div>
       <div class="section">
-        <div class="section-label">Warmup — 5 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Arm circles + shoulder rolls</div></div></div><div class="ex-sets">2 × 30 sec</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Band pull-aparts</div></div></div><div class="ex-sets">2 × 15</div></div>
+        <div class="section-label">Warmup — 5 min · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=arm+circles+shoulder+warmup+routine" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Arm circles + shoulder rolls</div></div></div><div class="ex-right"><span class="ex-sets">2 × 30 sec</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=band+pull+aparts+tutorial+form" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Band pull-aparts</div></div></div><div class="ex-right"><span class="ex-sets">2 × 15</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
       <div class="section">
-        <div class="section-label">Main lifts</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Bench Press / Push-ups</div><div class="ex-note">Chest & triceps</div></div></div><div class="ex-sets">4 × 8–10</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Dumbbell Row</div><div class="ex-note">Back & biceps — each side</div></div></div><div class="ex-sets">4 × 10</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Overhead Press (DB / Barbell)</div><div class="ex-note">Shoulders</div></div></div><div class="ex-sets">3 × 10</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Lat Pulldown / Pull-ups</div><div class="ex-note">Lats & upper back</div></div></div><div class="ex-sets">3 × 10–12</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Bicep Curls</div><div class="ex-note">Full range of motion</div></div></div><div class="ex-sets">3 × 12</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">6</div><div><div class="ex-name">Tricep Overhead Extension</div><div class="ex-note">Superset with curls</div></div></div><div class="ex-sets">3 × 12</div></div>
+        <div class="section-label">Main lifts · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=bench+press+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Bench Press / Push-ups</div><div class="ex-note">Chest & triceps</div></div></div><div class="ex-right"><span class="ex-sets">4 × 8–10</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=dumbbell+row+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Dumbbell Row</div><div class="ex-note">Back & biceps — each side</div></div></div><div class="ex-right"><span class="ex-sets">4 × 10</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=overhead+press+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Overhead Press (DB / Barbell)</div><div class="ex-note">Shoulders</div></div></div><div class="ex-right"><span class="ex-sets">3 × 10</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=lat+pulldown+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Lat Pulldown / Pull-ups</div><div class="ex-note">Lats & upper back</div></div></div><div class="ex-right"><span class="ex-sets">3 × 10–12</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=bicep+curl+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Bicep Curls</div><div class="ex-note">Full range of motion</div></div></div><div class="ex-right"><span class="ex-sets">3 × 12</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=tricep+overhead+extension+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">6</div><div><div class="ex-name">Tricep Overhead Extension</div><div class="ex-note">Superset with curls</div></div></div><div class="ex-right"><span class="ex-sets">3 × 12</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
       <div class="section">
-        <div class="section-label">Abs — 10 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Dead Bug</div><div class="ex-note">Core stability — slow & controlled</div></div></div><div class="ex-sets">3 × 10</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Plank Hold</div><div class="ex-note">Full tension, no sagging hips</div></div></div><div class="ex-sets">3 × 40 sec</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Bicycle Crunches</div><div class="ex-note">Slow tempo, full rotation</div></div></div><div class="ex-sets">3 × 20</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Leg Raises</div><div class="ex-note">Lower abs</div></div></div><div class="ex-sets">3 × 12–15</div></div>
+        <div class="section-label">Abs — 10 min · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=dead+bug+exercise+tutorial+core" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Dead Bug</div><div class="ex-note">Core stability — slow & controlled</div></div></div><div class="ex-right"><span class="ex-sets">3 × 10</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=plank+hold+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Plank Hold</div><div class="ex-note">Full tension, no sagging hips</div></div></div><div class="ex-right"><span class="ex-sets">3 × 40 sec</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=bicycle+crunch+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Bicycle Crunches</div><div class="ex-note">Slow tempo, full rotation</div></div></div><div class="ex-right"><span class="ex-sets">3 × 20</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=lying+leg+raise+tutorial+lower+abs" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Leg Raises</div><div class="ex-note">Lower abs</div></div></div><div class="ex-right"><span class="ex-sets">3 × 12–15</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
       <div class="tip">Rest 60–90 sec between sets. Form over weight — especially on the first 2 weeks.</div>
     </div>
@@ -462,13 +215,13 @@
         </div>
       </div>
       <div class="section">
-        <div class="section-label">Post-run core — 8 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Mountain Climbers</div><div class="ex-note">Sprint bursts, core tight</div></div></div><div class="ex-sets">3 × 20</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Side Plank + Hip Dip</div><div class="ex-note">Obliques & hip stability</div></div></div><div class="ex-sets">2 × 30 sec each</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Russian Twists</div><div class="ex-note">With or without weight</div></div></div><div class="ex-sets">3 × 20</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Hollow Body Hold</div><div class="ex-note">Full core tension</div></div></div><div class="ex-sets">2 × 20 sec</div></div>
+        <div class="section-label">Post-run core — 8 min · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=mountain+climbers+exercise+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Mountain Climbers</div><div class="ex-note">Sprint bursts, core tight</div></div></div><div class="ex-right"><span class="ex-sets">3 × 20</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=side+plank+hip+dip+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Side Plank + Hip Dip</div><div class="ex-note">Obliques & hip stability</div></div></div><div class="ex-right"><span class="ex-sets">2 × 30 sec each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=russian+twist+exercise+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Russian Twists</div><div class="ex-note">With or without weight</div></div></div><div class="ex-right"><span class="ex-sets">3 × 20</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=hollow+body+hold+tutorial+core" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Hollow Body Hold</div><div class="ex-note">Full core tension</div></div></div><div class="ex-right"><span class="ex-sets">2 × 20 sec</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
-      <div class="tip">If you're feeling fatigued from Tuesday's session, keep the run easy and drop the last core set.</div>
+      <div class="tip">If you're tired from Tuesday, keep the run easy and drop the last core set.</div>
     </div>
 
     <!-- THURSDAY -->
@@ -478,26 +231,26 @@
         <span class="type-badge badge-strength">Strength</span>
       </div>
       <div class="section">
-        <div class="section-label">Warmup — 5 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Leg swings (front/back + lateral)</div></div></div><div class="ex-sets">2 × 15 each</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Glute bridges</div><div class="ex-note">Activation — squeeze at top</div></div></div><div class="ex-sets">2 × 15</div></div>
+        <div class="section-label">Warmup — 5 min · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=leg+swings+warmup+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Leg swings (front/back + lateral)</div></div></div><div class="ex-right"><span class="ex-sets">2 × 15 each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=glute+bridge+tutorial+activation" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Glute bridges</div><div class="ex-note">Squeeze at the top</div></div></div><div class="ex-right"><span class="ex-sets">2 × 15</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
       <div class="section">
-        <div class="section-label">Main lifts</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Barbell / Goblet Squat</div><div class="ex-note">Quads, glutes, core</div></div></div><div class="ex-sets">4 × 8–10</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Romanian Deadlift (RDL)</div><div class="ex-note">Hamstrings & lower back</div></div></div><div class="ex-sets">4 × 10</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Walking Lunges (DB)</div><div class="ex-note">Balance & single-leg strength</div></div></div><div class="ex-sets">3 × 12 each</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Leg Press</div><div class="ex-note">Quad finisher</div></div></div><div class="ex-sets">3 × 12</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Calf Raises (standing)</div><div class="ex-note">Slow tempo, full range</div></div></div><div class="ex-sets">4 × 15</div></div>
+        <div class="section-label">Main lifts · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=squat+proper+form+tutorial+beginners" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Barbell / Goblet Squat</div><div class="ex-note">Quads, glutes, core</div></div></div><div class="ex-right"><span class="ex-sets">4 × 8–10</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=romanian+deadlift+RDL+proper+form" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Romanian Deadlift (RDL)</div><div class="ex-note">Hamstrings & lower back</div></div></div><div class="ex-right"><span class="ex-sets">4 × 10</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=walking+lunges+dumbbell+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Walking Lunges (DB)</div><div class="ex-note">Balance & single-leg strength</div></div></div><div class="ex-right"><span class="ex-sets">3 × 12 each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=leg+press+machine+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Leg Press</div><div class="ex-note">Quad finisher</div></div></div><div class="ex-right"><span class="ex-sets">3 × 12</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=standing+calf+raise+tutorial+form" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Calf Raises (standing)</div><div class="ex-note">Slow tempo, full range</div></div></div><div class="ex-right"><span class="ex-sets">4 × 15</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
       <div class="section">
-        <div class="section-label">Mobility cooldown — 10 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">World's Greatest Stretch</div><div class="ex-note">Hip + thoracic spine</div></div></div><div class="ex-sets">5 each side</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Deep Squat Hold</div><div class="ex-note">Ankle & hip mobility</div></div></div><div class="ex-sets">3 × 30 sec</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">90/90 Hip Stretch</div><div class="ex-note">Internal + external rotation</div></div></div><div class="ex-sets">45 sec each</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Foam Roll Quads & Hamstrings</div><div class="ex-note">If available</div></div></div><div class="ex-sets">2 min total</div></div>
+        <div class="section-label">Mobility cooldown — 10 min · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=worlds+greatest+stretch+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">World's Greatest Stretch</div><div class="ex-note">Hip + thoracic spine</div></div></div><div class="ex-right"><span class="ex-sets">5 each side</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=deep+squat+hold+mobility+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Deep Squat Hold</div><div class="ex-note">Ankle & hip mobility</div></div></div><div class="ex-right"><span class="ex-sets">3 × 30 sec</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=90+90+hip+stretch+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">90/90 Hip Stretch</div><div class="ex-note">Internal + external rotation</div></div></div><div class="ex-right"><span class="ex-sets">45 sec each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=foam+rolling+quads+hamstrings+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Foam Roll Quads & Hamstrings</div><div class="ex-note">If available</div></div></div><div class="ex-right"><span class="ex-sets">2 min total</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
-      <div class="tip">Lower body day directly supports your 3× running — don't skip the mobility cooldown. This is injury prevention.</div>
+      <div class="tip">Lower body day directly supports your running — don't skip the mobility cooldown.</div>
     </div>
 
     <!-- FRIDAY -->
@@ -507,25 +260,25 @@
         <span class="type-badge badge-strength">Strength</span>
       </div>
       <div class="section">
-        <div class="section-label">Warmup — 5 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Jump rope or light jog</div></div></div><div class="ex-sets">3 min</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Hip circles + thoracic rotation</div></div></div><div class="ex-sets">2 × 10 each</div></div>
+        <div class="section-label">Warmup — 5 min · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=jump+rope+warmup+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Jump rope or light jog</div></div></div><div class="ex-right"><span class="ex-sets">3 min</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=hip+circles+thoracic+rotation+warmup" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Hip circles + thoracic rotation</div></div></div><div class="ex-right"><span class="ex-sets">2 × 10 each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
       <div class="section">
-        <div class="section-label">Main lifts</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Deadlift (Conventional)</div><div class="ex-note">Full posterior chain — the anchor lift</div></div></div><div class="ex-sets">4 × 6–8</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Incline Dumbbell Press</div><div class="ex-note">Upper chest focus</div></div></div><div class="ex-sets">3 × 10</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Cable / Dumbbell Rows</div><div class="ex-note">Mid back</div></div></div><div class="ex-sets">3 × 12</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Lateral Raises</div><div class="ex-note">Shoulder stability & width</div></div></div><div class="ex-sets">3 × 15</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Bulgarian Split Squat</div><div class="ex-note">Unilateral leg strength</div></div></div><div class="ex-sets">3 × 10 each</div></div>
+        <div class="section-label">Main lifts · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=conventional+deadlift+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Deadlift (Conventional)</div><div class="ex-note">Full posterior chain — the anchor lift</div></div></div><div class="ex-right"><span class="ex-sets">4 × 6–8</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=incline+dumbbell+press+tutorial+form" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Incline Dumbbell Press</div><div class="ex-note">Upper chest focus</div></div></div><div class="ex-right"><span class="ex-sets">3 × 10</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=cable+row+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Cable / Dumbbell Rows</div><div class="ex-note">Mid back</div></div></div><div class="ex-right"><span class="ex-sets">3 × 12</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=lateral+raises+proper+form+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Lateral Raises</div><div class="ex-note">Shoulder stability & width</div></div></div><div class="ex-right"><span class="ex-sets">3 × 15</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=bulgarian+split+squat+tutorial+form" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Bulgarian Split Squat</div><div class="ex-note">Unilateral leg strength</div></div></div><div class="ex-right"><span class="ex-sets">3 × 10 each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
       <div class="section">
-        <div class="section-label">Abs finisher — 8 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Ab Wheel Rollout</div><div class="ex-note">Anti-extension core</div></div></div><div class="ex-sets">3 × 10</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Hanging Knee Raise</div><div class="ex-note">Lower abs</div></div></div><div class="ex-sets">3 × 12</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Weighted Crunch / Cable Crunch</div><div class="ex-note">Rectus abdominis</div></div></div><div class="ex-sets">3 × 15</div></div>
+        <div class="section-label">Abs finisher — 8 min · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=ab+wheel+rollout+tutorial+beginners" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Ab Wheel Rollout</div><div class="ex-note">Anti-extension core</div></div></div><div class="ex-right"><span class="ex-sets">3 × 10</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=hanging+knee+raise+tutorial+abs" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Hanging Knee Raise</div><div class="ex-note">Lower abs</div></div></div><div class="ex-right"><span class="ex-sets">3 × 12</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=cable+crunch+weighted+crunch+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Weighted / Cable Crunch</div><div class="ex-note">Rectus abdominis</div></div></div><div class="ex-right"><span class="ex-sets">3 × 15</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
-      <div class="tip">Friday is your heaviest day — the deadlift sets the tone. Push intensity here and rest well this weekend.</div>
+      <div class="tip">Friday is your heaviest day — the deadlift is the anchor. Push intensity here.</div>
     </div>
 
     <!-- SATURDAY -->
@@ -544,14 +297,14 @@
         </div>
       </div>
       <div class="section">
-        <div class="section-label">Full mobility session — 12 min</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Full body foam roll</div><div class="ex-note">Back, IT band, calves, quads</div></div></div><div class="ex-sets">4–5 min</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Downward Dog → Cobra Flow</div><div class="ex-note">Spine mobility</div></div></div><div class="ex-sets">2 × 8 reps</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Standing Figure-4 Stretch</div><div class="ex-note">Glutes</div></div></div><div class="ex-sets">45 sec each</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Child's Pose + Arm Reach</div><div class="ex-note">Lats & lower back</div></div></div><div class="ex-sets">60 sec</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Neck & shoulder release</div><div class="ex-note">Slow tilts + rolls</div></div></div><div class="ex-sets">2 min</div></div>
+        <div class="section-label">Full mobility session — 12 min · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=foam+rolling+full+body+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Full body foam roll</div><div class="ex-note">Back, IT band, calves, quads</div></div></div><div class="ex-right"><span class="ex-sets">4–5 min</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=downward+dog+cobra+flow+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Downward Dog → Cobra Flow</div><div class="ex-note">Spine mobility</div></div></div><div class="ex-right"><span class="ex-sets">2 × 8 reps</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=figure+4+stretch+standing+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Standing Figure-4 Stretch</div><div class="ex-note">Glutes</div></div></div><div class="ex-right"><span class="ex-sets">45 sec each</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=childs+pose+arm+reach+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">4</div><div><div class="ex-name">Child's Pose + Arm Reach</div><div class="ex-note">Lats & lower back</div></div></div><div class="ex-right"><span class="ex-sets">60 sec</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=neck+shoulder+stretch+release+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">5</div><div><div class="ex-name">Neck & shoulder release</div><div class="ex-note">Slow tilts + rolls</div></div></div><div class="ex-right"><span class="ex-sets">2 min</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
-      <div class="tip">Saturday run = recovery run. The mobility session is the main event — don't rush it.</div>
+      <div class="tip">Saturday is your recovery run. The mobility session is more important than the pace today.</div>
     </div>
 
     <!-- SUNDAY -->
@@ -560,134 +313,98 @@
         <div><div class="day-title">Sunday</div><div style="color:var(--text2);font-size:13px;">Rest & Recovery</div></div>
         <span class="type-badge badge-rest">Rest Day</span>
       </div>
-      <div style="text-align:center;padding:40px 20px;">
-        <div style="font-size:48px;margin-bottom:16px;">💤</div>
+      <div style="text-align:center;padding:36px 20px;">
+        <div style="font-size:44px;margin-bottom:14px;">💤</div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:8px;">Full Rest Day</div>
-        <div style="color:var(--text2);max-width:400px;margin:0 auto;font-size:14px;">Muscles grow during rest, not during training. This day is not optional — it's where the adaptation happens.</div>
+        <div style="color:var(--text2);max-width:380px;margin:0 auto;font-size:13px;">Muscles grow during rest, not during training. This day is not optional — it's where the adaptation happens.</div>
       </div>
       <div class="section">
-        <div class="section-label">Optional active recovery</div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Light walk or gentle yoga</div><div class="ex-note">Low intensity only</div></div></div><div class="ex-sets">15–20 min</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Full body stretch routine</div><div class="ex-note">Focus on tight areas</div></div></div><div class="ex-sets">10 min</div></div>
-        <div class="ex-row"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Contrast shower</div><div class="ex-note">30 sec cold / 30 sec warm × 5 rounds</div></div></div><div class="ex-sets">5 min</div></div>
+        <div class="section-label">Optional active recovery · tap to watch</div>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=gentle+yoga+recovery+routine+tutorial" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">1</div><div><div class="ex-name">Light walk or gentle yoga</div><div class="ex-note">Low intensity only</div></div></div><div class="ex-right"><span class="ex-sets">15–20 min</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=full+body+stretch+recovery+routine" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">2</div><div><div class="ex-name">Full body stretch routine</div><div class="ex-note">Focus on tight areas</div></div></div><div class="ex-right"><span class="ex-sets">10 min</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
+        <a class="ex-row" href="https://www.youtube.com/results?search_query=contrast+shower+cold+hot+recovery+benefits" target="_blank" rel="noopener"><div class="ex-left"><div class="ex-num">3</div><div><div class="ex-name">Contrast shower</div><div class="ex-note">30 sec cold / 30 sec warm × 5 rounds</div></div></div><div class="ex-right"><span class="ex-sets">5 min</span><div class="yt-icon"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg></div></div></a>
       </div>
-      <div class="tip">Prioritise 7–9 hours of sleep tonight. Sleep is the most underrated recovery tool.</div>
+      <div class="tip">Prioritise 7–9 hours sleep tonight. Sleep is the most underrated recovery tool you have.</div>
     </div>
 
-  </div><!-- end dayViews -->
-</div><!-- end workouts tab -->
-
-<!-- ════════════════ NUTRITION TAB ════════════════ -->
-<div id="tab-nutrition" class="tab-content">
-  <h2>Nutrition Plan</h2>
-  <p>Calculated for 96 kg, active lifestyle (3× run + 3× strength), fat loss target.</p>
-
-  <div class="macro-grid">
-    <div class="macro-card" style="background:rgba(26,108,245,0.08);border-color:rgba(26,108,245,0.2);">
-      <div class="mc-label">Daily Calories</div>
-      <div class="mc-value" style="color:var(--blue);">2,450</div>
-      <div class="mc-desc">kcal (fat loss)</div>
-    </div>
-    <div class="macro-card" style="background:rgba(0,184,122,0.08);border-color:rgba(0,184,122,0.2);">
-      <div class="mc-label">Protein</div>
-      <div class="mc-value" style="color:var(--teal);">155g</div>
-      <div class="mc-desc">per day</div>
-    </div>
-    <div class="macro-card" style="background:rgba(245,166,35,0.08);border-color:rgba(245,166,35,0.2);">
-      <div class="mc-label">Carbs</div>
-      <div class="mc-value" style="color:var(--amber);">260g</div>
-      <div class="mc-desc">per day</div>
-    </div>
-    <div class="macro-card" style="background:rgba(255,255,255,0.04);border-color:var(--border);">
-      <div class="mc-label">Fats</div>
-      <div class="mc-value" style="color:var(--text);">75g</div>
-      <div class="mc-desc">per day</div>
-    </div>
-  </div>
-
-  <h2 style="margin-top:32px;">Sample Daily Meals</h2>
-  <p>Training day — adjust carbs down ~50g on rest days.</p>
-
-  <div class="meal-row"><div class="meal-time">7:00 AM</div><div class="meal-food"><strong>Breakfast</strong><br/><span style="color:var(--text2);font-size:13px;">3 eggs + 2 whites, oats with banana, black coffee</span></div><div class="meal-macro">35g protein<br/><span style="color:var(--text2);font-size:11px;">~550 kcal</span></div></div>
-  <div class="meal-row"><div class="meal-time">10:00 AM</div><div class="meal-food"><strong>Snack</strong><br/><span style="color:var(--text2);font-size:13px;">Greek yogurt 200g, mixed berries, handful almonds</span></div><div class="meal-macro">20g protein<br/><span style="color:var(--text2);font-size:11px;">~320 kcal</span></div></div>
-  <div class="meal-row"><div class="meal-time">1:00 PM</div><div class="meal-food"><strong>Lunch</strong><br/><span style="color:var(--text2);font-size:13px;">Grilled chicken 200g, brown rice 1 cup, mixed veg</span></div><div class="meal-macro">45g protein<br/><span style="color:var(--text2);font-size:11px;">~580 kcal</span></div></div>
-  <div class="meal-row"><div class="meal-time">4:00 PM</div><div class="meal-food"><strong>Pre-workout</strong><br/><span style="color:var(--text2);font-size:13px;">Banana + whey protein shake (1 scoop)</span></div><div class="meal-macro">25g protein<br/><span style="color:var(--text2);font-size:11px;">~280 kcal</span></div></div>
-  <div class="meal-row"><div class="meal-time">7:00 PM</div><div class="meal-food"><strong>Post-workout dinner</strong><br/><span style="color:var(--text2);font-size:13px;">Salmon 180g or lean beef, sweet potato, broccoli</span></div><div class="meal-macro">40g protein<br/><span style="color:var(--text2);font-size:11px;">~550 kcal</span></div></div>
-  <div class="meal-row"><div class="meal-time">9:00 PM</div><div class="meal-food"><strong>Evening</strong><br/><span style="color:var(--text2);font-size:13px;">Cottage cheese 150g or casein shake</span></div><div class="meal-macro">25g protein<br/><span style="color:var(--text2);font-size:11px;">~180 kcal</span></div></div>
-  <div class="meal-row" style="border-color:rgba(0,184,122,0.3);background:rgba(0,184,122,0.06);">
-    <div class="meal-time" style="color:var(--teal);font-weight:600;">TOTAL</div>
-    <div class="meal-food"></div>
-    <div class="meal-macro" style="color:var(--teal);font-size:14px;">~190g protein<br/><span style="font-size:11px;">~2,460 kcal</span></div>
-  </div>
-
-  <div style="margin-top:28px;">
-    <h2>Key Nutrition Rules</h2>
-    <p>Follow these to maximise results from your training.</p>
-    <div class="rule-card"><div class="rule-icon" style="background:rgba(0,184,122,0.12);">🥩</div><div><div class="rule-title">Protein every meal</div><div class="rule-desc">Spread 150g+ across 4–6 meals. Your body can only use ~40g per sitting for muscle synthesis.</div></div></div>
-    <div class="rule-card"><div class="rule-icon" style="background:rgba(26,108,245,0.12);">⚡</div><div><div class="rule-title">Carbs around workouts</div><div class="rule-desc">Eat carbs before and after training. That's when your body uses them as fuel, not storage.</div></div></div>
-    <div class="rule-card"><div class="rule-icon" style="background:rgba(245,166,35,0.12);">💧</div><div><div class="rule-title">3.5–4 L water daily</div><div class="rule-desc">Add an extra 500ml on run and lift days. UAE heat increases sweat loss significantly.</div></div></div>
-    <div class="rule-card"><div class="rule-icon" style="background:rgba(255,255,255,0.06);">📉</div><div><div class="rule-title">Rest day calories: ~2,200 kcal</div><div class="rule-desc">Drop carbs by 50g on rest days. Keep protein identical — you still need it for recovery.</div></div></div>
   </div>
 </div>
 
-<!-- ════════════════ OVERLOAD TAB ════════════════ -->
+<!-- NUTRITION TAB -->
+<div id="tab-nutrition" class="tab-content">
+  <h2>Nutrition Plan</h2>
+  <p>Calculated for 96 kg, active (3× run + 3× strength), fat loss target ~2,450 kcal/day.</p>
+  <div class="macro-grid">
+    <div class="macro-card" style="background:rgba(26,108,245,0.08);border-color:rgba(26,108,245,0.2);"><div class="mc-label">Daily Calories</div><div class="mc-value" style="color:var(--blue);">2,450</div><div class="mc-desc">kcal target</div></div>
+    <div class="macro-card" style="background:rgba(0,184,122,0.08);border-color:rgba(0,184,122,0.2);"><div class="mc-label">Protein</div><div class="mc-value" style="color:var(--teal);">155g</div><div class="mc-desc">per day</div></div>
+    <div class="macro-card" style="background:rgba(245,166,35,0.08);border-color:rgba(245,166,35,0.2);"><div class="mc-label">Carbs</div><div class="mc-value" style="color:var(--amber);">260g</div><div class="mc-desc">per day</div></div>
+    <div class="macro-card" style="background:rgba(255,255,255,0.04);border-color:var(--border);"><div class="mc-label">Fats</div><div class="mc-value" style="color:var(--text);">75g</div><div class="mc-desc">per day</div></div>
+  </div>
+  <h2 style="margin-top:28px;">Sample Daily Meals</h2>
+  <p>Training day — reduce carbs ~50g on rest days, keep protein the same.</p>
+  <div class="meal-row"><div class="meal-time">7:00 AM</div><div class="meal-food"><strong>Breakfast</strong><br/><span style="color:var(--text2);font-size:13px;">3 eggs + 2 whites, oats with banana, black coffee</span></div><div class="meal-macro">35g<br/><span style="color:var(--text2);font-size:11px;">~550 kcal</span></div></div>
+  <div class="meal-row"><div class="meal-time">10:00 AM</div><div class="meal-food"><strong>Snack</strong><br/><span style="color:var(--text2);font-size:13px;">Greek yogurt 200g, mixed berries, almonds</span></div><div class="meal-macro">20g<br/><span style="color:var(--text2);font-size:11px;">~320 kcal</span></div></div>
+  <div class="meal-row"><div class="meal-time">1:00 PM</div><div class="meal-food"><strong>Lunch</strong><br/><span style="color:var(--text2);font-size:13px;">Grilled chicken 200g, brown rice 1 cup, mixed veg</span></div><div class="meal-macro">45g<br/><span style="color:var(--text2);font-size:11px;">~580 kcal</span></div></div>
+  <div class="meal-row"><div class="meal-time">4:00 PM</div><div class="meal-food"><strong>Pre-workout</strong><br/><span style="color:var(--text2);font-size:13px;">Banana + whey protein shake (1 scoop)</span></div><div class="meal-macro">25g<br/><span style="color:var(--text2);font-size:11px;">~280 kcal</span></div></div>
+  <div class="meal-row"><div class="meal-time">7:00 PM</div><div class="meal-food"><strong>Dinner</strong><br/><span style="color:var(--text2);font-size:13px;">Salmon 180g or lean beef, sweet potato, broccoli</span></div><div class="meal-macro">40g<br/><span style="color:var(--text2);font-size:11px;">~550 kcal</span></div></div>
+  <div class="meal-row"><div class="meal-time">9:00 PM</div><div class="meal-food"><strong>Evening</strong><br/><span style="color:var(--text2);font-size:13px;">Cottage cheese 150g or casein shake</span></div><div class="meal-macro">25g<br/><span style="color:var(--text2);font-size:11px;">~180 kcal</span></div></div>
+  <div class="meal-row" style="border-color:rgba(0,184,122,0.3);background:rgba(0,184,122,0.06);">
+    <div class="meal-time" style="color:var(--teal);font-weight:600;">TOTAL</div><div class="meal-food"></div>
+    <div class="meal-macro" style="color:var(--teal);font-size:14px;">~190g<br/><span style="font-size:11px;">~2,460 kcal</span></div>
+  </div>
+  <div style="margin-top:26px;"><h2>Key Rules</h2><p></p>
+    <div class="rule-card"><div class="rule-icon" style="background:rgba(0,184,122,0.12);">🥩</div><div><div class="rule-title">Protein every meal</div><div class="rule-desc">Spread 150g+ across 4–6 meals. Body uses ~40g max per sitting for muscle repair.</div></div></div>
+    <div class="rule-card"><div class="rule-icon" style="background:rgba(26,108,245,0.12);">⚡</div><div><div class="rule-title">Carbs around workouts</div><div class="rule-desc">Eat carbs before and after training — that's when they fuel performance, not fat storage.</div></div></div>
+    <div class="rule-card"><div class="rule-icon" style="background:rgba(245,166,35,0.12);">💧</div><div><div class="rule-title">3.5–4 L water daily</div><div class="rule-desc">Add 500ml extra on run and lift days. UAE heat increases sweat loss significantly.</div></div></div>
+    <div class="rule-card"><div class="rule-icon" style="background:rgba(255,255,255,0.06);">📉</div><div><div class="rule-title">Rest day: ~2,200 kcal</div><div class="rule-desc">Drop carbs by 50g on rest days only. Keep protein exactly the same.</div></div></div>
+  </div>
+</div>
+
+<!-- OVERLOAD TAB -->
 <div id="tab-overload" class="tab-content">
   <h2>Progressive Overload</h2>
   <p>10-week strength cycle. Never increase weight AND volume at the same time.</p>
-
-  <div class="overload-row"><div class="ol-week">Week 1–2</div><div class="ol-sets">3 × 10–12</div><div class="ol-focus">Light — 60% max. Form & technique focus. Learn the movements.</div></div>
-  <div class="overload-row"><div class="ol-week">Week 3–4</div><div class="ol-sets">3 × 8–10</div><div class="ol-focus">Add 5% weight. Base strength building phase begins.</div></div>
-  <div class="overload-row"><div class="ol-week">Week 5–6</div><div class="ol-sets">4 × 8–10</div><div class="ol-focus">Add another 5% weight. Volume increase — 4 working sets now.</div></div>
-  <div class="overload-row"><div class="ol-week">Week 7–8</div><div class="ol-sets">4 × 6–8</div><div class="ol-focus">Heavier load — add 5–10%. Push intensity on compound lifts.</div></div>
-  <div class="overload-row ol-deload"><div class="ol-week">Week 9</div><div class="ol-sets">3 × 12 light</div><div class="ol-focus">⚡ Deload — drop to 50% max. Recovery week. Non-negotiable.</div></div>
-  <div class="overload-row" style="border-color:rgba(0,184,122,0.3);background:rgba(0,184,122,0.06);"><div class="ol-week" style="color:var(--teal);">Week 10+</div><div class="ol-sets">Repeat cycle</div><div class="ol-focus">New baseline is +10% from where you started. Repeat from Week 3.</div></div>
-
-  <div style="margin-top:32px;">
-    <h2>The 4 Rules</h2>
-    <p>These rules prevent plateaus and injuries.</p>
-    <div class="rule-card"><div class="rule-icon" style="background:rgba(26,108,245,0.12);">+2</div><div><div class="rule-title">The 2-rep rule</div><div class="rule-desc">If you can do 2 or more extra reps with good form, add weight next session. Upper body: +2.5 kg. Lower body: +5 kg.</div></div></div>
-    <div class="rule-card"><div class="rule-icon" style="background:rgba(0,184,122,0.12);">📝</div><div><div class="rule-title">Track everything</div><div class="rule-desc">Log weight, sets, and reps every session. You cannot progress what you don't measure. Use your phone notes app if nothing else.</div></div></div>
-    <div class="rule-card"><div class="rule-icon" style="background:rgba(245,166,35,0.12);">⚡</div><div><div class="rule-title">Deload every 8–9 weeks</div><div class="rule-desc">Drop intensity to 50% for one full week. This resets your central nervous system and prevents cumulative fatigue and injury.</div></div></div>
-    <div class="rule-card"><div class="rule-icon" style="background:rgba(232,69,60,0.12);">🚫</div><div><div class="rule-title">Never skip form for weight</div><div class="rule-desc">A set with bad form is not a set — it's an injury waiting to happen. Drop the weight, nail the form, then progress.</div></div></div>
+  <div class="overload-row"><div class="ol-week">Week 1–2</div><div class="ol-sets">3 × 10–12</div><div class="ol-focus">Light — 60% max. Form & technique only.</div></div>
+  <div class="overload-row"><div class="ol-week">Week 3–4</div><div class="ol-sets">3 × 8–10</div><div class="ol-focus">Add 5% weight. Base strength building begins.</div></div>
+  <div class="overload-row"><div class="ol-week">Week 5–6</div><div class="ol-sets">4 × 8–10</div><div class="ol-focus">Add 5% weight + increase to 4 working sets.</div></div>
+  <div class="overload-row"><div class="ol-week">Week 7–8</div><div class="ol-sets">4 × 6–8</div><div class="ol-focus">Heavier loads — add 5–10%. Push intensity.</div></div>
+  <div class="overload-row ol-deload"><div class="ol-week">Week 9</div><div class="ol-sets">3 × 12 light</div><div class="ol-focus">⚡ Deload — 50% max. Full recovery week.</div></div>
+  <div class="overload-row" style="border-color:rgba(0,184,122,0.3);background:rgba(0,184,122,0.06);"><div class="ol-week" style="color:var(--teal);">Week 10+</div><div class="ol-sets">Repeat</div><div class="ol-focus">New baseline is +10% from start. Repeat from Week 3.</div></div>
+  <div style="margin-top:28px;"><h2>The 4 Rules</h2><p></p>
+    <div class="rule-card"><div class="rule-icon" style="background:rgba(26,108,245,0.12);font-family:'DM Mono',monospace;font-size:12px;">+2</div><div><div class="rule-title">The 2-rep rule</div><div class="rule-desc">Can do 2+ extra reps with good form? Add weight. Upper body +2.5 kg, lower body +5 kg.</div></div></div>
+    <div class="rule-card"><div class="rule-icon" style="background:rgba(0,184,122,0.12);">📝</div><div><div class="rule-title">Track everything</div><div class="rule-desc">Log weight, sets, reps every session. You cannot progress what you don't measure.</div></div></div>
+    <div class="rule-card"><div class="rule-icon" style="background:rgba(245,166,35,0.12);">⚡</div><div><div class="rule-title">Deload every 8–9 weeks</div><div class="rule-desc">Drop to 50% intensity for one full week. Resets CNS and prevents cumulative injury.</div></div></div>
+    <div class="rule-card"><div class="rule-icon" style="background:rgba(232,69,60,0.12);">🚫</div><div><div class="rule-title">Never sacrifice form</div><div class="rule-desc">A rep with bad form is not a rep — it's an injury. Drop the weight, nail the form, then progress.</div></div></div>
   </div>
 </div>
 
 <footer>MARWAN · 7-DAY WORKOUT PLAN · STRENGTH + RUN + MOBILITY</footer>
 
 <script>
-  // ── Day strip ──────────────────────────────────────────────────────────
   const dayData = [
-    { label: "Mon", type: "run" },
-    { label: "Tue", type: "strength" },
-    { label: "Wed", type: "run" },
-    { label: "Thu", type: "strength" },
-    { label: "Fri", type: "strength" },
-    { label: "Sat", type: "run" },
-    { label: "Sun", type: "rest" },
+    {label:"Mon",type:"run"},{label:"Tue",type:"strength"},
+    {label:"Wed",type:"run"},{label:"Thu",type:"strength"},
+    {label:"Fri",type:"strength"},{label:"Sat",type:"run"},
+    {label:"Sun",type:"rest"}
   ];
   const strip = document.getElementById('dayStrip');
-  dayData.forEach((d, i) => {
+  dayData.forEach((d,i)=>{
     const btn = document.createElement('button');
-    btn.className = `day-pill ${d.type} ${i === 0 ? 'active' : ''}`;
+    btn.className = `day-pill ${d.type} ${i===0?'active':''}`;
     btn.textContent = d.label;
-    btn.onclick = () => selectDay(i);
+    btn.onclick = ()=>selectDay(i);
     strip.appendChild(btn);
   });
-
-  function selectDay(idx) {
-    document.querySelectorAll('.day-pill').forEach((b,i) => b.classList.toggle('active', i===idx));
-    document.querySelectorAll('.day-view').forEach((v,i) => v.classList.toggle('active', i===idx));
+  function selectDay(idx){
+    document.querySelectorAll('.day-pill').forEach((b,i)=>b.classList.toggle('active',i===idx));
+    document.querySelectorAll('.day-view').forEach((v,i)=>v.classList.toggle('active',i===idx));
   }
-
-  // Auto-select today
-  const todayIdx = (new Date().getDay() + 6) % 7;
-  selectDay(Math.min(todayIdx, 6));
-
-  // ── Tab switching ──────────────────────────────────────────────────────
-  function switchTab(name, btn) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
+  const todayIdx = (new Date().getDay()+6)%7;
+  selectDay(Math.min(todayIdx,6));
+  function switchTab(name,btn){
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('tab-'+name).classList.add('active');
     btn.classList.add('active');
   }
 </script>
