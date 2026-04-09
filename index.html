@@ -46,16 +46,7 @@
   .tab-btn.active { background: var(--blue); color: #fff; }
   .tab-btn:not(.active):hover { background: rgba(255,255,255,0.06); color: var(--text); }
 
-  /* DAY STRIP */
-  .week-strip { display: flex; overflow-x: auto; gap: 8px; padding: 24px 24px 0; scrollbar-width: none; max-width: 820px; margin: 0 auto; }
-  .week-strip::-webkit-scrollbar { display: none; }
-  .day-pill { flex-shrink: 0; padding: 9px 18px; border-radius: 100px; border: 1px solid var(--border); background: var(--card); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text2); transition: all 0.2s; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
-  .day-pill:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
-  .day-pill.active { color: #fff; border-color: transparent; }
-  .day-pill.run.active { background: var(--teal); }
-  .day-pill.interval.active { background: var(--red); }
-  .day-pill.strength.active { background: var(--blue); }
-  .day-pill.rest.active { background: #2a3650; color: var(--text2); }
+  /* DAY STRIP — removed, using overview grid instead */
 
   /* CONTENT */
   .tab-content { display: none; max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }
@@ -157,14 +148,22 @@
 
   /* WEEK OVERVIEW GRID */
   .week-overview { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 28px; }
-  .wo-day { border-radius: 10px; padding: 10px 6px; border: 1px solid var(--border); background: var(--card); text-align: center; }
+  .wo-day { border-radius: 10px; padding: 10px 6px; border: 1px solid var(--border); background: var(--card); text-align: center; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .wo-day:hover { transform: translateY(-2px); }
+  .wo-day:active { transform: scale(0.96); }
   .wo-day-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text2); letter-spacing: 0.08em; }
   .wo-day-icon  { font-size: 20px; margin: 6px 0; }
-  .wo-day-name  { font-size: 11px; font-weight: 500; line-height: 1.3; }
+  .wo-day-name  { font-size: 11px; font-weight: 500; line-height: 1.3; color: var(--text2); }
   .wo-day.type-run      { border-color: rgba(0,184,122,0.25); background: rgba(0,184,122,0.05); }
   .wo-day.type-interval { border-color: rgba(232,69,46,0.28); background: rgba(232,69,46,0.06); }
   .wo-day.type-strength { border-color: rgba(26,108,245,0.25); background: rgba(26,108,245,0.05); }
   .wo-day.type-rest     { border-color: var(--border); }
+  .wo-day.active.type-run      { background: rgba(0,184,122,0.18); border-color: var(--teal); box-shadow: 0 0 0 2px rgba(0,184,122,0.25); }
+  .wo-day.active.type-interval { background: rgba(232,69,46,0.18); border-color: var(--red); box-shadow: 0 0 0 2px rgba(232,69,46,0.25); }
+  .wo-day.active.type-strength { background: rgba(26,108,245,0.18); border-color: var(--blue); box-shadow: 0 0 0 2px rgba(26,108,245,0.25); }
+  .wo-day.active.type-rest     { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); box-shadow: 0 0 0 2px rgba(255,255,255,0.1); }
+  .wo-day.active .wo-day-label { color: var(--text); }
+  .wo-day.active .wo-day-name  { color: var(--text); font-weight: 600; }
 
   h2 { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.04em; margin-bottom: 4px; }
   p  { color: var(--text2); font-size: 13px; margin-bottom: 14px; }
@@ -202,20 +201,19 @@
 <!-- ===== WORKOUTS TAB ===== -->
 <div id="tab-workouts" class="tab-content active">
 
-  <!-- Week overview -->
-  <div style="max-width:820px;margin:22px auto 0;padding:0 0 0 0;">
-    <div class="week-overview">
-      <div class="wo-day type-run">      <div class="wo-day-label">MON</div><div class="wo-day-icon">🏃</div><div class="wo-day-name">Easy Run</div></div>
-      <div class="wo-day type-strength"> <div class="wo-day-label">TUE</div><div class="wo-day-icon">💪</div><div class="wo-day-name">Upper Body</div></div>
-      <div class="wo-day type-interval"> <div class="wo-day-label">WED</div><div class="wo-day-icon">⚡</div><div class="wo-day-name">Intervals</div></div>
-      <div class="wo-day type-strength"> <div class="wo-day-label">THU</div><div class="wo-day-icon">🦵</div><div class="wo-day-name">Legs + Stride</div></div>
-      <div class="wo-day type-strength"> <div class="wo-day-label">FRI</div><div class="wo-day-icon">🏋️</div><div class="wo-day-name">Full Body</div></div>
-      <div class="wo-day type-run">      <div class="wo-day-label">SAT</div><div class="wo-day-icon">🏃</div><div class="wo-day-name">Easy Run</div></div>
-      <div class="wo-day type-rest">     <div class="wo-day-label">SUN</div><div class="wo-day-icon">💤</div><div class="wo-day-name">Rest</div></div>
+  <!-- Week overview — clickable day cards -->
+  <div style="max-width:820px;margin:22px auto 0;padding:0 24px;">
+    <div class="week-overview" id="weekOverview">
+      <div class="wo-day type-run"      onclick="selectDay(0)"><div class="wo-day-label">MON</div><div class="wo-day-icon">🏃</div><div class="wo-day-name">Easy Run</div></div>
+      <div class="wo-day type-strength" onclick="selectDay(1)"><div class="wo-day-label">TUE</div><div class="wo-day-icon">💪</div><div class="wo-day-name">Upper Body</div></div>
+      <div class="wo-day type-interval" onclick="selectDay(2)"><div class="wo-day-label">WED</div><div class="wo-day-icon">⚡</div><div class="wo-day-name">Intervals</div></div>
+      <div class="wo-day type-strength" onclick="selectDay(3)"><div class="wo-day-label">THU</div><div class="wo-day-icon">🦵</div><div class="wo-day-name">Legs + Stride</div></div>
+      <div class="wo-day type-strength" onclick="selectDay(4)"><div class="wo-day-label">FRI</div><div class="wo-day-icon">🏋️</div><div class="wo-day-name">Full Body</div></div>
+      <div class="wo-day type-run"      onclick="selectDay(5)"><div class="wo-day-label">SAT</div><div class="wo-day-icon">🏃</div><div class="wo-day-name">Easy Run</div></div>
+      <div class="wo-day type-rest"     onclick="selectDay(6)"><div class="wo-day-label">SUN</div><div class="wo-day-icon">💤</div><div class="wo-day-name">Rest</div></div>
     </div>
   </div>
 
-  <div class="week-strip" id="dayStrip"></div>
   <div style="margin-top:22px;" id="dayViews">
 
     <!-- ===== MONDAY: Easy Run ===== -->
@@ -580,22 +578,8 @@
 <footer>MARWAN · 7-DAY WORKOUT PLAN v2 · STRENGTH + RUN + INTERVAL + MOBILITY + VO2 MAX</footer>
 
 <script>
-  const dayData = [
-    {label:"Mon",type:"run"},{label:"Tue",type:"strength"},
-    {label:"Wed",type:"interval"},{label:"Thu",type:"strength"},
-    {label:"Fri",type:"strength"},{label:"Sat",type:"run"},
-    {label:"Sun",type:"rest"}
-  ];
-  const strip = document.getElementById('dayStrip');
-  dayData.forEach((d,i)=>{
-    const btn = document.createElement('button');
-    btn.className = `day-pill ${d.type} ${i===0?'active':''}`;
-    btn.textContent = d.label;
-    btn.onclick = ()=>selectDay(i);
-    strip.appendChild(btn);
-  });
   function selectDay(idx){
-    document.querySelectorAll('.day-pill').forEach((b,i)=>b.classList.toggle('active',i===idx));
+    document.querySelectorAll('.wo-day').forEach((c,i)=>c.classList.toggle('active',i===idx));
     document.querySelectorAll('.day-view').forEach((v,i)=>v.classList.toggle('active',i===idx));
   }
   const todayIdx = (new Date().getDay()+6)%7;
